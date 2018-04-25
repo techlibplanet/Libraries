@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
+    android:padding="5dp"
     tools:context=".lottie.LottieActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
         <com.airbnb.lottie.LottieAnimationView
             android:layout_weight="1"
             android:id="@+id/lottieAnimationViewCheckedDone"
@@ -23,97 +19,91 @@
             app:lottie_fileName="checked_done_.json"/>
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_weight="1"
             android:id="@+id/lottieAnimationViewSwing"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
             android:layout_alignParentEnd="true"
-            app:lottie_fileName="swing.json"/>
-
-        <com.airbnb.lottie.LottieAnimationView
+            android:layout_marginEnd="16dp"
             android:layout_weight="1"
-            android:background="#000"
-            android:id="@+id/lottieAnimationViewClock"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="clock_full_rotation.json"/>
+            app:lottie_fileName="swing.json" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationViewClock"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_weight="1"
+        android:background="#000"
+        app:lottie_fileName="clock_full_rotation.json"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationViewExplodingHeart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/lottieAnimationViewPlane"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationViewMotor"
+        app:lottie_fileName="exploding_heart.json"
+         />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationViewPlane"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:layout_weight="1"
+        android:background="#00bfff"
+        app:layout_constraintStart_toEndOf="@+id/lottieAnimationLocationPin"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationWorldLocation"
+        app:lottie_fileName="Plane.json"
+        />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationViewMotor"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/lottieAnimationWorldLocation"
+        app:lottie_fileName="motorcycle.json"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="0dp" />
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationWorldLocation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/lottieAnimationViewClock"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_fileName="world_locations.json" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationLocationPin"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toBottomOf="@+id/lottieAnimationViewClock"
+        app:lottie_fileName="location_pin.json"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:id="@+id/lottieAnimationViewExplodingHeart"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="exploding_heart.json"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_weight="1"
-            android:background="#00bfff"
-            android:layout_marginTop="5dp"
-            android:id="@+id/lottieAnimationViewPlane"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="Plane.json"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:id="@+id/lottieAnimationViewMotor"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="motorcycle.json"/>
 
 
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="5dp"
-            android:id="@+id/lottieAnimationWorldLocation"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="world_locations.json"/>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_marginTop="5dp"
-            android:id="@+id/lottieAnimationLocationPin"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
-            android:layout_alignParentEnd="true"
-            app:lottie_fileName="location_pin.json"/>
-
-    </LinearLayout>
-
-
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
