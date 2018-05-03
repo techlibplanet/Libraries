@@ -19,18 +19,19 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import com.example.mayank.libraries.Constants.showLogDebug
-import java.io.ByteArrayOutputStream
 import android.os.Build
 import android.support.annotation.RequiresApi
 import com.theartofdev.edmodo.cropper.CropImage
 import java.nio.file.Files.size
 import android.R.attr.data
-
-
-
-
-
-
+import android.content.ContextWrapper
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.os.Environment
+import android.view.Menu
+import android.view.MenuItem
+import java.io.*
+import java.util.*
 
 
 class CameraActivity : AppCompatActivity() {
@@ -52,32 +53,43 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-        buttonCapture.setOnClickListener{
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if (cameraIntent.resolveActivity(packageManager) != null){
-                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_camera_activity, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId){
+            R.id.camera ->{
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if (cameraIntent.resolveActivity(packageManager) != null){
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+                }
             }
-        }
-        
-
-        buttonCrop.setOnClickListener{
-
-
-            if (requestPermissions()){
+            R.id.crop ->{
                 if (bitmap != null){
                     picUri = getImageUri(this, bitmap!!)
 //                    performCrop()
-                    CropImage.activity(picUri)
-                            .start(this);
-
+                    CropImage.activity(picUri).start(this);
                 }else{
                     Toast.makeText(this, "Please select an Image", Toast.LENGTH_SHORT).show()
                 }
             }
-
-
+            R.id.save ->{
+                if (bitmap != null){
+                    saveToInternalStorage(bitmap!!)
+                }else {
+                    Toast.makeText(this, "Please select an Image", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else ->{
+                Toast.makeText(this, "Unrecognized Menu Option", Toast.LENGTH_SHORT).show()
+            }
         }
-
+        return super.onOptionsItemSelected(item)
     }
 
 
@@ -87,6 +99,7 @@ class CameraActivity : AppCompatActivity() {
 
         when(requestCode) {
                 CAMERA_REQUEST_CODE -> {
+
                     if (resultCode == Activity.RESULT_OK && data!= null){
                         bitmap = data.extras.get("data") as Bitmap
                         imageViewCamera.setImageBitmap(bitmap)
@@ -97,8 +110,9 @@ class CameraActivity : AppCompatActivity() {
                     if (resultCode === Activity.RESULT_OK) {
                         val resultUri = result.uri
                         showLogDebug(TAG, "Result Uri $resultUri")
-//                        imageViewCamera.setImageBitmap(result.bitmap)
                         imageViewCamera.setImageURI(resultUri)
+                        val drawable = imageViewCamera.drawable as BitmapDrawable
+                        bitmap = drawable.bitmap
                     } else if (resultCode === CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                         val error = result.error
                         showLogDebug(TAG, "Error $error")
@@ -143,14 +157,106 @@ class CameraActivity : AppCompatActivity() {
         }
     }
 
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
     }
 
+    // Save to Internal Storage
+    private fun saveToInternalStorage(bitmapImage: Bitmap): String {
+        val cw = ContextWrapper(applicationContext)
+        // path to /data/data/yourapp/app_data/imageDir
+        val directory = cw.getDir("images", Context.MODE_PRIVATE)
+        // Create imageDir
+        showLogDebug(TAG, "Folder Location - $directory")
+
+//        val generator = Random()
+//        var n = 10000
+//        n = generator.nextInt(n)
+        val timeInMillis = System.currentTimeMillis()
+
+        fname = "Image-$timeInMillis.jpg"
+
+        showLogDebug(TAG, "File Name $fname")
+        val file = File(directory, fname)
+        if (file.exists()){
+            showLogDebug(TAG, "File already Exist")
+            file.delete()
+            fname = null
+        }
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(file)
+
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+
+            showLogDebug(TAG, "Image saved successfully")
+            Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            showLogDebug(TAG, "Failed to store Image")
+        } finally {
+            try {
+                fos!!.flush()
+                fos!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return directory.absolutePath
+    }
+
+    private var fname : String? = null
+
+
+    //Store Image to External Storage
+    private fun saveImage(bitmapImage: Bitmap){
+        val root = Environment.getExternalStorageDirectory().toString()
+        val myDir = File("$root/images")
+        showLogDebug(TAG, "Location - $myDir")
+        myDir.mkdir()
+        val generator = Random()
+        var n = 10000
+        n = generator.nextInt(n)
+        fname = "Image-$n.jpg"
+
+        showLogDebug(TAG, "File Name $fname")
+        val file = File(myDir,fname)
+        if (file.exists()){
+            showLogDebug(TAG, "File already Exist")
+            file.delete()
+            fname = null
+        }
+        try {
+            val outputStream = FileOutputStream(file)
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            showLogDebug(TAG, "Image Saved Successfully")
+            Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show()
+
+        }catch (e: Exception){
+            e.printStackTrace()
+            showLogDebug(TAG, "Failed to store Image")
+        }
+    }
 
 
 
+    private fun loadImageFromStorage(path: String, fileName : String){
+        try {
+         val f = File(path, fileName)
+//            val length = f.length() / 1024
+//            showLogDebug(TAG, "Length of File - $length")
+            val b = BitmapFactory.decodeStream(FileInputStream(f))
+            imageViewCamera.setImageBitmap(b)
+        }catch (e: FileNotFoundException){
+            e.printStackTrace()
+            showLogDebug(TAG, "Error $e")
+        }
+
+    }
 }

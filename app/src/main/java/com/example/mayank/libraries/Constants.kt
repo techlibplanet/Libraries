@@ -7,6 +7,7 @@ import android.util.Log
  */
 object Constants {
 
+
     fun showLogDebug(tag: String, message: String){
         Log.d(tag, message)
     }

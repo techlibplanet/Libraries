@@ -5,8 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.mayank.libraries.Constants.showLogDebug
-import com.example.mayank.libraries.camera.CameraActivity
+import com.example.mayank.libraries.camera.UpdatedCameraActivity
 import com.example.mayank.libraries.databinding.DataBindingActivity
+import com.example.mayank.libraries.imageCompress.ImageCompressActivity
 import com.example.mayank.libraries.lottie.LottieActivity
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     fun openCameraActivity(view: View){
         showLogDebug(TAG,"Open camera button clicked")
-        val intent = Intent(this, CameraActivity::class.java)
+        val intent = Intent(this, UpdatedCameraActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun compressActivity(view: View){
+        val intent = Intent(this, ImageCompressActivity::class.java)
         startActivity(intent)
     }
 }
