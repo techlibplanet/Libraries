@@ -9,6 +9,7 @@ import com.example.mayank.libraries.camera.UpdatedCameraActivity
 import com.example.mayank.libraries.databinding.DataBindingActivity
 import com.example.mayank.libraries.imageCompress.ImageCompressActivity
 import com.example.mayank.libraries.lottie.LottieActivity
+import com.example.mayank.libraries.retrofit.NetworkActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun compressActivity(view: View){
-        val intent = Intent(this, ImageCompressActivity::class.java)
+        val intent = Intent(this, NetworkActivity::class.java)
         startActivity(intent)
     }
 }

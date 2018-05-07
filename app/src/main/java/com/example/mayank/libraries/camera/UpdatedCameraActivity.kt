@@ -14,15 +14,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.mayank.libraries.Constants
+import com.example.mayank.libraries.Constants.showLogDebug
 import com.example.mayank.libraries.R
 import com.example.mayank.libraries.imageCompress.FileUtil
 import com.theartofdev.edmodo.cropper.CropImage
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_camera.*
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import org.apache.commons.io.FileUtils
+import java.io.*
+import java.nio.file.Files.size
+
+
 
 class UpdatedCameraActivity : AppCompatActivity() {
 
@@ -31,7 +33,7 @@ class UpdatedCameraActivity : AppCompatActivity() {
     var bitmap : Bitmap? = null
     val CAMERA_REQUEST_CODE = 100
     var actualImage : File? = null
-    val compressImage : File? = null
+    var compressImage : File? = null
     var fname : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,19 +58,21 @@ class UpdatedCameraActivity : AppCompatActivity() {
             R.id.crop ->{
                 if (bitmap != null){
                     picUri = getImageUri(this, bitmap!!)
-//                    performCrop()
                     CropImage.activity(picUri).start(this);
                 }else{
                     Toast.makeText(this, "Please select an Image", Toast.LENGTH_SHORT).show()
                 }
+
             }
             R.id.save ->{
                 if (bitmap != null){
                     val uri = getImageUri(this, bitmap!!)
                     actualImage = FileUtil.from(this, uri)
                     bitmap = Compressor(this).compressToBitmap(actualImage)
-                    saveToInternalStorage(bitmap!!)
-
+//                    saveFile(compressImage!!)
+                    saveFileToInternalStorage(bitmap!!)
+//                    saveToInternalStorage(bitmap!!)
+//
                 }else {
                     Toast.makeText(this, "Please select an Image", Toast.LENGTH_SHORT).show()
                 }
@@ -80,50 +84,96 @@ class UpdatedCameraActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Save to Internal Storage
-    private fun saveToInternalStorage(bitmapImage: Bitmap): String {
-        val cw = ContextWrapper(applicationContext)
-        // path to /data/data/yourapp/app_data/images
-        val directory = cw.getDir("images", Context.MODE_PRIVATE)
-        // Create imageDir
-        Constants.showLogDebug(TAG, "Folder Location - $directory")
-
-//        val generator = Random()
-//        var n = 10000
-//        n = generator.nextInt(n)
+    // To save File
+    private fun saveFile(file: File){
         val timeInMillis = System.currentTimeMillis()
+        val fileName = "File-$timeInMillis"
+        val fileContent = file.readBytes()
+        try {
+            applicationContext.openFileOutput(fileName, Context.MODE_PRIVATE).use {
+                it.write(fileContent)
+                showLogDebug(TAG, "File saved successfully")
+            }
+        }catch (e: Exception){
+            showLogDebug(TAG, "Error - $e")
+        }
+    }
 
+
+    private fun saveFileToInternalStorage(bitmap: Bitmap){
+        val cw = ContextWrapper(this)
+        val directory = cw.getDir("images", Context.MODE_PRIVATE)
+        showLogDebug(TAG, "Folder Location - $directory")
+        val timeInMillis = System.currentTimeMillis()
         fname = "Image-$timeInMillis.jpg"
-
-        Constants.showLogDebug(TAG, "File Name $fname")
+        showLogDebug(TAG, "File Name - $fname")
         val file = File(directory, fname)
         if (file.exists()){
-            Constants.showLogDebug(TAG, "File already Exist")
             file.delete()
-            fname = null
         }
-        var fos: FileOutputStream? = null
+        var fos : FileOutputStream? = null
         try {
             fos = FileOutputStream(file)
-
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-
-            Constants.showLogDebug(TAG, "Image saved successfully")
-            Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Constants.showLogDebug(TAG, "Failed to store Image")
-        } finally {
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, fos)
+            showLogDebug(TAG, "Image store successfully")
+            Toast.makeText(this, "Image store successfully", Toast.LENGTH_SHORT).show()
+        }catch (e: Exception){
+            showLogDebug(TAG, "Error - $e")
+        }finally {
             try {
                 fos!!.flush()
                 fos.close()
             } catch (e: IOException) {
                 e.printStackTrace()
+                showLogDebug(TAG, "Error - $e")
             }
         }
-        return directory.absolutePath
+
     }
+
+    // Save to Internal Storage
+//    private fun saveToInternalStorage(bitmapImage: Bitmap): String {
+//        val cw = ContextWrapper(applicationContext)
+//        // path to /data/data/yourapp/app_data/images
+//        val directory = cw.getDir("images", Context.MODE_PRIVATE)
+//        // Create imageDir
+//        Constants.showLogDebug(TAG, "Folder Location - $directory")
+//
+//        val timeInMillis = System.currentTimeMillis()
+//
+//        fname = "Image-$timeInMillis.jpg"
+//
+//        Constants.showLogDebug(TAG, "File Name $fname")
+//        val file = File(directory, fname)
+//        if (file.exists()){
+//            Constants.showLogDebug(TAG, "File already Exist")
+//            file.delete()
+//            fname = null
+//        }
+//        var fos: FileOutputStream? = null
+//        try {
+//            fos = FileOutputStream(file)
+//
+//            // Use the compress method on the BitMap object to write image to the OutputStream
+//            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+//
+//
+//
+//            Constants.showLogDebug(TAG, "Image saved successfully")
+//            Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show()
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            Constants.showLogDebug(TAG, "Failed to store Image")
+//        } finally {
+//            try {
+//                fos!!.flush()
+//                fos.close()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//        }
+//        return directory.absolutePath
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

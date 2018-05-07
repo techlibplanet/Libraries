@@ -35,9 +35,9 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".imageCompress.ImageCompressActivity"></activity>
-
-        <activity android:name=".camera.UpdatedCameraActivity"></activity>
+        <activity android:name=".imageCompress.ImageCompressActivity" />
+        <activity android:name=".camera.UpdatedCameraActivity" />
+        <activity android:name=".retrofit.NetworkActivity"></activity>
     </application>
 
 </manifest>
