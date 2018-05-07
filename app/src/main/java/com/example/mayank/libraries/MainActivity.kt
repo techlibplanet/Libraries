@@ -10,6 +10,8 @@ import com.example.mayank.libraries.databinding.DataBindingActivity
 import com.example.mayank.libraries.imageCompress.ImageCompressActivity
 import com.example.mayank.libraries.lottie.LottieActivity
 import com.example.mayank.libraries.retrofit.NetworkActivity
+import com.example.mayank.libraries.tablayout.TabLayoutActivity
+import com.example.mayank.libraries.tablayout.example2.TabLayoutExample
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun compressActivity(view: View){
-        val intent = Intent(this, NetworkActivity::class.java)
+        val intent = Intent(this, TabLayoutExample::class.java)
         startActivity(intent)
     }
 }

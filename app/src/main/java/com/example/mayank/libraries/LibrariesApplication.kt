@@ -13,5 +13,13 @@ class LibrariesApplication : Application(){
     }
 
 
+    fun getRetrofit(): Retrofit {
+        return this.mRetrofit!!
+    }
+
+
+    fun setRetrofit() {
+        mRetrofit = ApiClient.buildRetrofit()
+    }
 
 }

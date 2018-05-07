@@ -37,7 +37,9 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".imageCompress.ImageCompressActivity" />
         <activity android:name=".camera.UpdatedCameraActivity" />
-        <activity android:name=".retrofit.NetworkActivity"></activity>
+        <activity android:name=".retrofit.NetworkActivity" />
+        <activity android:name=".tablayout.TabLayoutActivity" />
+        <activity android:name=".tablayout.example2.TabLayoutExample"></activity>
     </application>
 
 </manifest>
