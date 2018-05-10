@@ -9,6 +9,7 @@ import com.example.mayank.libraries.camera.UpdatedCameraActivity
 import com.example.mayank.libraries.databinding.DataBindingActivity
 import com.example.mayank.libraries.imageCompress.ImageCompressActivity
 import com.example.mayank.libraries.lottie.LottieActivity
+import com.example.mayank.libraries.magicalcamera.MagicalCamera
 import com.example.mayank.libraries.retrofit.NetworkActivity
 import com.example.mayank.libraries.tablayout.TabLayoutActivity
 import com.example.mayank.libraries.tablayout.example2.TabLayoutExample
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun compressActivity(view: View){
-        val intent = Intent(this, TabLayoutExample::class.java)
+        val intent = Intent(this, MagicalCamera::class.java)
         startActivity(intent)
     }
 }

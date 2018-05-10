@@ -39,7 +39,16 @@
         <activity android:name=".camera.UpdatedCameraActivity" />
         <activity android:name=".retrofit.NetworkActivity" />
         <activity android:name=".tablayout.TabLayoutActivity" />
-        <activity android:name=".tablayout.example2.TabLayoutExample"></activity>
+        <activity android:name=".tablayout.example2.TabLayoutExample" />
+        <activity android:name=".magicalcamera.MagicalCamera" />
+        <activity android:name=".ucrop.UcropActivity" />
+
+        <!-- Ucrop Activity -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".payumoney.MyPayments"></activity>
     </application>
 
 </manifest>

@@ -96,5 +96,15 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:${arch_version}"
     implementation "android.arch.persistence.room:rxjava2:${arch_version}"
 
+    //Magical Camera
+    implementation 'com.frosquivel:magicalcamera:5.0.5'
+
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+
+    //payumoney sdk
+//    implementation('com.payumoney.sdkui:plug-n-play:1.0.0') {
+//        transitive = true;
+//        exclude module: 'payumoney-sdk'
+//    }
 
 }
