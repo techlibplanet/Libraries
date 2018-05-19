@@ -10,6 +10,8 @@ object Constants {
 
     val API_END_POINT = "http://www.alchemyeducation.org/"
 
+    val CROPPED_IMAGES_PATH = "croppedimg"
+
     val CONNECTION_TIMEOUT: Long = 60
     val READ_TIMEOUT: Long = 60
 

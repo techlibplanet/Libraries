@@ -93,40 +93,21 @@ class MagicalCamera : AppCompatActivity() {
         for (permission in map?.keys!!) {
             showLogDebug("PERMISSIONS", permission + " was: " + map[permission])
         }
-        //Following the example you could also
-        //locationPermissions(requestCode, permissions, grantResults);
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         when(requestCode){
             MagicalCamera.TAKE_PHOTO ->{
                 magicalCamera?.resultPhoto(requestCode,resultCode,data)
-
                 val uri = getImageUri(this, magicalCamera?.photo!!)
                 showLogDebug(TAG,"$uri")
                 actualImage = FileUtil.from(this, uri)
-
                 bitmap = Compressor(this).compressToBitmap(actualImage)
-//        bitmap = magicalCamera?.photo
-
                 if (bitmap!= null){
                     imageViewMagical.setImageBitmap(magicalCamera?.faceDetector(50, Color.GREEN))
                 }
-
                 getBitmapInformation(magicalCamera!!)
-
-
-//                val path = magicalCamera?.savePhotoInMemoryDevice(bitmap, "Image-${System.currentTimeMillis()}", "Images",MagicalCamera.JPEG, true)
-//
-//                if(path != null){
-//                    showLogDebug(TAG, "Path - $path")
-//                    Toast.makeText(this, "The photo is save in device, please check this path: $path", Toast.LENGTH_SHORT).show()
-//                }else{
-//                    Toast.makeText(this, "Sorry your photo dont write in devide, please contact with fabian7593@gmail and say this error", Toast.LENGTH_SHORT).show()
-//                }
-
             }
             CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ->{
                 val result = CropImage.getActivityResult(data)
@@ -145,9 +126,6 @@ class MagicalCamera : AppCompatActivity() {
                 Toast.makeText(this, "Unrecognized Code", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -190,7 +168,7 @@ class MagicalCamera : AppCompatActivity() {
     }
 
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
+//        val bytes = ByteArrayOutputStream()
 //        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
         return Uri.parse(path)
@@ -200,8 +178,6 @@ class MagicalCamera : AppCompatActivity() {
     private fun loadImageFromStorage(path: String, fileName : String){
         try {
             val f = File(path, fileName)
-//            val length = f.length() / 1024
-//            showLogDebug(TAG, "Length of File - $length")
             val b = BitmapFactory.decodeStream(FileInputStream(f))
             imageViewMagical.setImageBitmap(b)
         }catch (e: FileNotFoundException){

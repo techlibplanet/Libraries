@@ -54,7 +54,7 @@ internal object FileUtil {
 
     private fun getFileName(context: Context, uri: Uri): String {
         var result: String? = null
-        if (uri.getScheme().equals("content")) {
+        if (uri.scheme == "content") {
             val cursor = context.contentResolver.query(uri, null, null, null, null)
             try {
                 if (cursor != null && cursor.moveToFirst()) {

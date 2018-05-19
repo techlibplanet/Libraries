@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mayank.libraries">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -43,12 +44,26 @@
         <activity android:name=".magicalcamera.MagicalCamera" />
         <activity android:name=".ucrop.UcropActivity" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.mayank.libraries.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                tools:replace="android:resource" />
+        </provider>
+
         <!-- Ucrop Activity -->
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".payumoney.MyPayments"></activity>
+        <activity android:name=".payumoney.MyPayments" />
+        <activity android:name=".camera.FinalCameraActivity" />
+        <activity android:name=".widgets.ProgressExample"></activity>
     </application>
 
 </manifest>

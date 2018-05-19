@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -66,12 +67,13 @@ class UpdatedCameraActivity : AppCompatActivity() {
             }
             R.id.save ->{
                 if (bitmap != null){
-                    val uri = getImageUri(this, bitmap!!)
-                    actualImage = FileUtil.from(this, uri)
-                    bitmap = Compressor(this).compressToBitmap(actualImage)
-//                    saveFile(compressImage!!)
-                    saveFileToInternalStorage(bitmap!!)
+//                    val uri = getImageUri(this, bitmap!!)
+//                    actualImage = FileUtil.from(this, uri)
+//                    bitmap = Compressor(this).compressToBitmap(actualImage)
+////                    saveFile(compressImage!!)
+//                    saveFileToInternalStorage(bitmap!!) // working
 //                    saveToInternalStorage(bitmap!!)
+                    saveFileByteArray(bitmap!!)
 //
                 }else {
                     Toast.makeText(this, "Please select an Image", Toast.LENGTH_SHORT).show()
@@ -82,6 +84,14 @@ class UpdatedCameraActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun saveFileByteArray(bitmap: Bitmap) {
+        showLogDebug(TAG, "Inside save file byte array")
+        val byteArrayStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayStream)
+        val byteArray = byteArrayStream.toByteArray()
+        showLogDebug(TAG, "Byte Array : $byteArray")
     }
 
     // To save File

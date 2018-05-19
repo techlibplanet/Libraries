@@ -52,6 +52,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-support-v4-commons:$anko_version"
 
+    //Image Cropper
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
 
     // Image Compressor
@@ -98,7 +99,7 @@ dependencies {
 
     //Magical Camera
     implementation 'com.frosquivel:magicalcamera:5.0.5'
-
+    // Ucrop Library
     implementation 'com.github.yalantis:ucrop:2.2.2'
 
     //payumoney sdk
