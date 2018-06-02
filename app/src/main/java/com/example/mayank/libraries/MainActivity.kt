@@ -7,6 +7,7 @@ import android.view.View
 import com.example.mayank.libraries.Constants.showLogDebug
 import com.example.mayank.libraries.camera.FinalCameraActivity
 import com.example.mayank.libraries.camera.UpdatedCameraActivity
+import com.example.mayank.libraries.camerakit.CameraKitActivity
 import com.example.mayank.libraries.databinding.DataBindingActivity
 import com.example.mayank.libraries.imageCompress.ImageCompressActivity
 import com.example.mayank.libraries.lottie.LottieActivity
@@ -50,6 +51,11 @@ class MainActivity : AppCompatActivity() {
 
     fun gotoProgress(view: View){
         val intent = Intent(this, ProgressExample::class.java)
+        startActivity(intent)
+    }
+
+    fun gotoCameraKit(view : View){
+        val intent = Intent(this, CameraKitActivity::class.java)
         startActivity(intent)
     }
 }

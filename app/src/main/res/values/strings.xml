@@ -82,4 +82,8 @@
     <string name="showcase_item_animated_text">Animated\nText</string>
     <string name="showcase_item_dynamic_text">Dynamic\nText</string>
     <string name="bullseye_drag_dot">Drag the blue dot</string>
+
+
+    <string name="facebook_app_id">938572772987299</string>
+    <string name="fb_login_protocol_scheme">fb938572772987299</string>
 </resources>

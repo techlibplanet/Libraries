@@ -108,4 +108,15 @@ dependencies {
 //        exclude module: 'payumoney-sdk'
 //    }
 
+    // Camera Kit
+    implementation 'com.wonderkiln:camerakit:0.13.1'
+
+    implementation 'com.github.alchemymayank:CameraApp:1.0'
+
+    // Google Log In
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
+
 }

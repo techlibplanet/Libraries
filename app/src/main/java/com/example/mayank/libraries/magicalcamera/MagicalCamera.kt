@@ -36,6 +36,8 @@ import com.theartofdev.edmodo.cropper.CropImage
 import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.activity_magical_camera.*
+import net.rmitsolutions.cameralibrary.MyLibrary
+import net.rmitsolutions.cameralibrary.MyPermissions
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -46,7 +48,8 @@ class MagicalCamera : AppCompatActivity() {
 
     private val TAG = com.example.mayank.libraries.magicalcamera.MagicalCamera::class.java.simpleName
 
-    private var magicalPermission : MagicalPermissions? = null
+    private lateinit var magicalPermissions: MagicalPermissions
+    private lateinit var myPermissions : MyPermissions
 
     private val RESIZE_PHOTO_PIXELS_PERCENTAGE = 100
 
@@ -62,14 +65,21 @@ class MagicalCamera : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_magical_camera)
 
-        val permissions = arrayOf<String>(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissions = arrayOf<String>(Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION)
 
-        magicalPermission = MagicalPermissions(this, permissions)
+        magicalPermissions = MagicalPermissions(this, permissions)
+
+        myPermissions = MyPermissions(this, permissions)
         val runnable = Runnable {
             //TODO location permissions are granted code here your feature
             Toast.makeText(this, "Thanks for granting location permissions", Toast.LENGTH_LONG).show()
         }
-        magicalPermission!!.askPermissions(runnable)
+        magicalPermissions.askPermissions(runnable)
+        myPermissions.askPermissions(runnable)
 
 
         // To load Image from storage
@@ -82,14 +92,14 @@ class MagicalCamera : AppCompatActivity() {
 
 
     fun magical(view: View){
-        magicalCamera = MagicalCamera(this,RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermission)
+        magicalCamera = MagicalCamera(this,RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermissions)
         magicalCamera?.takePhoto()
 
     }
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        val map = magicalPermission?.permissionResult(requestCode, permissions, grantResults)
+        val map = magicalPermissions.permissionResult(requestCode, permissions, grantResults)
         for (permission in map?.keys!!) {
             showLogDebug("PERMISSIONS", permission + " was: " + map[permission])
         }
@@ -136,7 +146,7 @@ class MagicalCamera : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item?.itemId){
             R.id.camera ->{
-                magicalCamera = MagicalCamera(this,RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermission)
+                magicalCamera = MagicalCamera(this,RESIZE_PHOTO_PIXELS_PERCENTAGE, magicalPermissions)
                 magicalCamera?.takePhoto()
             }
             R.id.crop ->{
@@ -167,10 +177,10 @@ class MagicalCamera : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+    private fun getImageUri(context: Context, bitmap: Bitmap): Uri {
 //        val bytes = ByteArrayOutputStream()
 //        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "Title", null)
         return Uri.parse(path)
     }
 
