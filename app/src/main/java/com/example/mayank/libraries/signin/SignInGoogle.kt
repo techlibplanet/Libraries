@@ -22,8 +22,6 @@ import android.provider.SyncStateContract.Helpers.update
 import android.content.pm.PackageManager
 import android.content.pm.PackageInfo
 import android.util.Base64
-import com.facebook.FacebookSdk
-import com.facebook.appevents.AppEventsLogger
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 

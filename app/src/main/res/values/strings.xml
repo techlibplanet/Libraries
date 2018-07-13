@@ -86,4 +86,6 @@
 
     <string name="facebook_app_id">938572772987299</string>
     <string name="fb_login_protocol_scheme">fb938572772987299</string>
+
+    <string name="preference_file_key">mfexpert_lms_pref_file_key</string>
 </resources>
